@@ -12,7 +12,6 @@ private:
     char* chars;
 public:
     const static int DEFAULT_SIZE=10;
-    // declarations
     // ctors
     // for emtpy init
     string();
@@ -31,11 +30,6 @@ public:
     char* strcpy(char*, const char*);
     char* strcat(char*,const char*);
     // operators
-    // 2nd param is this in member functions
-    friend const string operator+(const string&, const string&);
-    friend const string operator+(const string&, const char*);
-    friend const string operator+(const string&, const std::string&) ;
-
     string operator+=(const util::string& s);
     string operator+=(const char* s);
     string operator+=(const std::string& s) ;
@@ -44,6 +38,9 @@ public:
     string operator=(const char*);
     string operator=(const std::string&);
 
+    friend const string operator+(const string&, const string&);
+    friend const string operator+(const string&, const char*);
+    friend const string operator+(const string&, const std::string&) ;
     friend bool operator== (const string&, const  string&);
     friend bool operator== (const string&, const char*);
     friend bool operator== (const string&, const std::string&);

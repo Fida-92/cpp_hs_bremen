@@ -8,7 +8,7 @@ util::string::string():len(this->DEFAULT_SIZE), chars(new char[len]){
 
 util::string::~string(){
     delete[] this->chars;
-    std::cout << "~string"<<std::endl;
+    // std::cout << "~string"<<std::endl;
 }
 
 util::string::string(const char* characters) :len(util::string::DEFAULT_SIZE), chars(new char[len])
@@ -27,6 +27,12 @@ util::string::string(const string& str){
     this->len = str.length();
     this->chars  = new char[len];
     this->strcpy(chars,str.chars);
+}
+
+util::string::string(const std::string& str){
+    this->len = str.length();
+    this->chars  = new char[len];
+    this->strcpy(this->chars,str.c_str());
 }
 int util::string::length() const{
     if (chars) {
@@ -111,30 +117,29 @@ util::string util::string::operator=(const std::string& str){
 }
 // +=
 util::string util::string::operator+=(const string& str){
-    int totalLen = len + str.length();
+    int totalLen = this->length() + str.length();
     char* charactersArr = new char[totalLen];
     this->strcpy(charactersArr,this->chars);
     for (int j=0; j < str.length(); j++){
-        charactersArr[len+j] = str.chars[j];
+        charactersArr[this->length()+j] = str.chars[j];
     }
-    std::cout << "Total length "<< str.length() << "+"<< this->length();
     delete []chars;
-    len = totalLen;
+    this->len = totalLen;
     this->chars = charactersArr;
     return *this;
 }
 // +=
 util::string util::string::operator+=(const char* chararacters){
-    std::cout <<"Length before += " <<this->length() << std::endl;
+    // std::cout <<"Length before += " <<this->length() << std::endl;
     this->strcat(chars,chararacters);
-    std::cout <<"Length after += "<< this->length()<<std::endl;
+    // std::cout <<"Length after += "<< this->length()<<std::endl;
     return *this;
 }
 // +=
 util::string util::string::operator+=(const std::string& s ){
-    std::cout <<"std::string before += " <<this->length() << std::endl;
+    // std::cout <<"std::string before += " <<this->length() << std::endl;
     this->strcat(chars,s.c_str());
-    std::cout <<"after += "<< this->length()<<std::endl;
+    // std::cout <<"after += "<< this->length()<<std::endl;
     return *this;
 }
 
@@ -171,7 +176,12 @@ bool util::operator!= (const string& lhs, const char* rhs){
 bool util::operator!= (const util::string& lhs, const std::string& rhs ){
     return !(lhs == rhs);
 }
-
+bool util::operator!= (const char* lhs,const string& rhs){
+    return !(lhs == rhs);
+}
+bool util::operator!= (const std::string& lhs,const string& rhs){
+    return !(lhs == rhs);
+}
 //[]
 char util::string::operator[] (unsigned int index) const{
     return chars[index];
