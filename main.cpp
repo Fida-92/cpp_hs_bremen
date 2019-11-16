@@ -14,20 +14,29 @@ void TestClear();
 void TestC_str();
 void TestNotEqualsOpetator();
 void TestIndexOperator();
+void TestSubstr();
+void TestLength();
 int main()
 {  
-
-    //TestAssignmentOpetator();
-    // TestStrConcat();
-    // TestStrAssignConcat();
-    // TestC_str();
-    //TestNotEqualsOpetator();
+    // Operators
+    TestOutStream();
+    TestEqualsOpetator();
+    TestAssignmentOpetator();
+    TestStrConcat();
+    TestStrAssignConcat();
+    TestNotEqualsOpetator();
     TestIndexOperator();
+
+    // Functions
+    TestClear();
+    TestC_str();
+    TestSubstr();
+    TestLength();
     return 0;
 }
 using namespace std;
 void TestOutStream(){
-    char chars[] = "Hallo Welt!";
+    char chars[] = "Hello World! from overlaoded \"<< Operator\"";
     util::string str2(chars);
     std::stringstream strout;
     strout << str2;
@@ -93,49 +102,63 @@ void TestAssignmentOpetator(){
 
 // Testing +
 void TestStrConcat(){
-    char chars[] = "Hallo ";//char
-    std::string str("Welt!");//std::string
-    util::string str1(chars);//util::string
-    util::string str2(chars);//util::string
-    str2 = str2+chars;
-    assert(str2.length()== 12);
-    str2 = str2+str1;
-    assert(str2.length()== 18);
-    str2 = str2+str;
-    PrintTestResult(str2.length()== 23, "+");
+    char chars12[] = "Hallo ";//char
+    std::string str12("Welt!");//std::string
+    util::string str11(chars12);//util::string
+    util::string str22(chars12);//util::string
+    str22 = str22+chars12;
+    assert(str22.length()== 12);
+    util::string str33(str22);
+    assert(str33.length()== 12);
+    util::string str44("");
+    str44 = str22+str12;
+    PrintTestResult(str44.length()== 17, "+");
+
 }
 
 //+=
 void TestStrAssignConcat(){
-    char chars[] = "Hallo ";//char
+    char chars[] = "Hallo Welt!";//char
     std::string str("Welt!");//std::string
     util::string str1(chars);//util::string
     util::string str2(chars);//util::string
     str2+=chars;
-    assert(str2.length()== 12);
-    str2+=str1;
-    assert(str2.length()== 18);
-    str2+=str;
-    PrintTestResult(str2.length()== 23, "+=");
-}
+    assert(str2.length()== 22);
 
+    util::string str3(str1);
+    str3 +=str2;
+    assert(str3.length() == 33);
+    str2+=str;
+    PrintTestResult(str2.length()== 27, "+=");
+}
+void TestSubstr(){
+    char chars1[] = "Hallo Welt!";
+    util::string str(chars1);
+    util::string str2(str.substr(6,5));
+    assert(str2 == "Welt!" && str.length()== 5);
+    cout<< "Successfully tested util::string::substr()"<<endl;
+}
+void TestLength(){
+    char chars1[] = "Hallo Welt!";
+    util::string str(chars1);
+    util::string str2(str.c_str());
+    assert(str.length()== 11);
+    cout<< "Successfully tested util::string::length()"<<endl;
+}
 void TestC_str(){
     char chars1[] = "Hello World!";
     util::string str(chars1);
     util::string str2(str.c_str());
     assert(str2.length()== 12);
-    for (int var = 0; var < str.length(); ++var) {
-        cout << str.c_str()[var]<<endl;
-    }
+    cout<< "Successfully tested util::string::c_str()"<<endl;
 }
 void TestClear(){
     char chars[] = "Hello World!";
     util::string str2(chars);
-    cout <<"Vor clear "<< str2.length() <<endl;
     assert(str2.length() == 12);
     str2.clear();
     assert(str2.length() == 0);
-    cout <<"Nach clear "<< str2.length() <<endl;
+    cout<< "Successfully tested util::string::clear()"<<endl;
 }
 
 

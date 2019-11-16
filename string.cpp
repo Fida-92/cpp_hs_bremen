@@ -8,7 +8,6 @@ util::string::string():len(this->DEFAULT_SIZE), chars(new char[len]){
 
 util::string::~string(){
     delete[] this->chars;
-    // std::cout << "~string"<<std::endl;
 }
 
 util::string::string(const char* characters) :len(util::string::DEFAULT_SIZE), chars(new char[len])
@@ -47,20 +46,17 @@ void util::string::clear(){
         chars[0]= '\0';
     }
 }
-util::string util::string::substr(int pos,int length){
+const util::string util::string::substr(int pos,int length) {
     char* tmp = new char[length];
     if (pos + length > this->length()) {
         tmp[0]='\0';
         this->chars= tmp;
-        std::cout << "Index(pos + length > chars.length) is out of bound"<< std::endl;
         return *this;
     }
-    std::cout <<"before substr "<< this->length()<<std::endl;
     for (int var = pos; var < pos+length; var++) {
         tmp[var-pos] = chars[var];
     }
-    this->chars=tmp;
-    std::cout<< "after substr " << this->length()<< std::endl;
+    this->chars = tmp;
     return *this;
 }
 
@@ -96,7 +92,6 @@ util::string util::string::operator=(const string& str){
     if (this == &str ) {
         return *this;
     }
-
     if ((int)str.length() > this->length()) {
         this->len = str.length();
         delete []this->chars;
@@ -130,16 +125,12 @@ util::string util::string::operator+=(const string& str){
 }
 // +=
 util::string util::string::operator+=(const char* chararacters){
-    // std::cout <<"Length before += " <<this->length() << std::endl;
     this->strcat(chars,chararacters);
-    // std::cout <<"Length after += "<< this->length()<<std::endl;
     return *this;
 }
 // +=
 util::string util::string::operator+=(const std::string& s ){
-    // std::cout <<"std::string before += " <<this->length() << std::endl;
     this->strcat(chars,s.c_str());
-    // std::cout <<"after += "<< this->length()<<std::endl;
     return *this;
 }
 

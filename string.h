@@ -24,7 +24,7 @@ public:
     string (const std::string &str);
     // functions
     void clear();
-    string substr(int,int);
+    const string substr(int,int);
     int length() const;
     const char* c_str() const;
     char* strcpy(char*, const char*);
