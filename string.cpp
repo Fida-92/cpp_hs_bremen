@@ -1,21 +1,20 @@
-/* Author: Ahmadi, Fida
- * MatrikelNummer: 50101292
- */
-
+// Author: Ahmadi, Fida
+// MatrikelNummer: 50101292
 #include "string.h"
-#include <iostream>
+bool areEqual(const char* lhs,const char* rhs);
+int length_char(const char* characters);
 util::string::string():len(this->DEFAULT_SIZE), chars(new char[len]){
 }
 
 util::string::~string(){
     delete[] this->chars;
-    cout << "~string"<<endl;
+    std::cout << "~string"<<std::endl;
 }
 
 util::string::string(const char* characters) :len(util::string::DEFAULT_SIZE), chars(new char[len])
 {
     if(characters){
-        unsigned n_chars= util::length_char(characters);
+        unsigned n_chars=  length_char(characters);
         // if the length of characters is too big
         if (n_chars > this->DEFAULT_SIZE) {
             this->len = n_chars;
@@ -29,10 +28,9 @@ util::string::string(const string& str){
     this->chars  = new char[len];
     this->strcpy(chars,str.chars);
 }
-
 int util::string::length() const{
     if (chars) {
-        unsigned n_chars = util::length_char(chars);
+        unsigned n_chars = length_char(chars);
         return n_chars;
     }
     return 0;
@@ -48,15 +46,15 @@ util::string util::string::substr(int pos,int length){
     if (pos + length > this->length()) {
         tmp[0]='\0';
         this->chars= tmp;
-        cout << "Index(pos + length > chars.length) is out of bound"<< endl;
+        std::cout << "Index(pos + length > chars.length) is out of bound"<< std::endl;
         return *this;
     }
-    cout <<"before substr "<< this->length()<<endl;
+    std::cout <<"before substr "<< this->length()<<std::endl;
     for (int var = pos; var < pos+length; var++) {
         tmp[var-pos] = chars[var];
     }
     this->chars=tmp;
-    cout<< "after substr " << this->length()<< endl;
+    std::cout<< "after substr " << this->length()<< std::endl;
     return *this;
 }
 
@@ -119,7 +117,7 @@ util::string util::string::operator+=(const string& str){
     for (int j=0; j < str.length(); j++){
         charactersArr[len+j] = str.chars[j];
     }
-    cout << "Total length "<< str.length() << "+"<< this->length();
+    std::cout << "Total length "<< str.length() << "+"<< this->length();
     delete []chars;
     len = totalLen;
     this->chars = charactersArr;
@@ -127,49 +125,49 @@ util::string util::string::operator+=(const string& str){
 }
 // +=
 util::string util::string::operator+=(const char* chararacters){
-    cout <<"Length before += " <<this->length() << endl;
+    std::cout <<"Length before += " <<this->length() << std::endl;
     this->strcat(chars,chararacters);
-    cout <<"Length after += "<< this->length()<<endl;
+    std::cout <<"Length after += "<< this->length()<<std::endl;
     return *this;
 }
 // +=
 util::string util::string::operator+=(const std::string& s ){
-    cout <<"std::string before += " <<this->length() << endl;
+    std::cout <<"std::string before += " <<this->length() << std::endl;
     this->strcat(chars,s.c_str());
-    cout <<"after += "<< this->length()<<endl;
+    std::cout <<"after += "<< this->length()<<std::endl;
     return *this;
 }
 
 //==
 bool util::operator== (const string& lhs, const string& rhs){
-    return util::areEqual(lhs.c_str(),rhs.c_str());
+    return  areEqual(lhs.c_str(),rhs.c_str());
 }
 //==
 bool util::operator== (const string& lhs, const char* characters){
-    return util::areEqual(lhs.c_str(),characters);
+    return  areEqual(lhs.c_str(),characters);
 }
 //==
 bool util::operator== (const util::string& lhs, const std::string& rhs ){
-    return util::areEqual(lhs.c_str(),rhs.c_str());
+    return areEqual(lhs.c_str(),rhs.c_str());
 }
 //==
 bool util::operator== (const char* lhs,const string& rhs ){
-    return util::areEqual(lhs,rhs.c_str());
+    return areEqual(lhs,rhs.c_str());
 }
 //==
 bool util::operator== (const std::string& lhs ,const string& rhs){
-    return util::areEqual(lhs.c_str(),rhs.c_str());
+    return areEqual(lhs.c_str(),rhs.c_str());
 }
 
-//!=
+// !=
 bool util::operator!= (const string& lhs, const string& rhs){
     return !(lhs == rhs);
 }
-//!=
+// !=
 bool util::operator!= (const string& lhs, const char* rhs){
     return !(lhs == rhs);
 }
-//!=
+// !=
 bool util::operator!= (const util::string& lhs, const std::string& rhs ){
     return !(lhs == rhs);
 }
@@ -178,7 +176,15 @@ bool util::operator!= (const util::string& lhs, const std::string& rhs ){
 char util::string::operator[] (unsigned int index) const{
     return chars[index];
 }
-
+// <<
+std::ostream& util::operator<< (std::ostream& os, const util::string& str){
+    if (str.length() > 0)
+    {
+        for (int index=0; index < str.length(); index++)
+            os << str[index];
+    } else os << "";
+    return os;
+}
 // Help Functions
 
 char* util::string::strcpy(char * dest, const char* src){
@@ -213,3 +219,34 @@ char* util::string::strcat(char* dest,const char * src){
 const char* util::string::c_str() const {
     return this->chars;
 }
+
+
+int  length_char(const char* characters){
+    unsigned n_chars=0;
+    while (characters[n_chars] !='\0') {
+        n_chars++;
+    }
+    return n_chars;
+}
+/**
+ * @brief areEqual compares to char*-array
+ * @param lhs
+ * @param rhs
+ * @return true if equal
+ */
+bool  areEqual(const char* lhs,const char* rhs){
+    int lhs_length= length_char(lhs);
+    int rhs_length= length_char(rhs);
+    int index = 0;
+    if (lhs_length != rhs_length) {
+        return false;
+    }
+    while (index < lhs_length){
+        if ( lhs[index] != rhs[index]) {
+            return false;
+        }
+        index++;
+    }
+    return true;
+}
+

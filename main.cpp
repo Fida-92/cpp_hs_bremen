@@ -1,37 +1,48 @@
-/* Author: Ahmadi, Fida
- * MatrikelNummer: 50101292
- */
-#include <iostream>
+// Author: Ahmadi, Fida
+// MatrikelNummer: 50101292
 #include "string.h"
+#include <sstream>
+#include <iostream>
 #include "cassert"
-using namespace std;
+//using namespace std;
 void TestStrCat();
 void TestClear();
 void TestC_str();
 void TestAssignmentOpetator();
 void TestEqualsOpetator();
+void TestOutStream();
 int main()
 {  
    // char chars[] = "Hallo Welt!";
    // util::string str(chars);
-    //cout << str.c_str()[0]<<endl;
-   // TestStrCat();
+    //cout << str.c_str()[0]<<end
+    TestOutStream();
     TestEqualsOpetator();
     return 0;
 }
+using namespace std;
+void TestOutStream(){
+    char chars[] = "Hallo Welt!";
+    util::string str2(chars);
+    std::stringstream strout;
+    strout << str2;
+    cout << strout.str()<< endl;
+
+}
 void TestEqualsOpetator(){
     char chars[] = "Hallo Welt!";
-    char chars2[] = "Welt!";
+    char chars2[] = "Hallo Welt!";
     util::string str(chars);
     util::string str2(chars2);
-    cout<< (str2==str ) << endl;
+
+     cout << (str2==str ) << endl;
    // assert( );
 }
 void TestAssignmentOpetator(){
     char chars[] = "Hallo Welt!";
     std::string str("Hallo");
     util::string str2(chars);
-    str2=str;
+    //str2=str;
     assert(str2.length()== 5);
 }
 void TestC_str(){
@@ -60,6 +71,6 @@ void TestStrCat(){
     //char chars2[] = "world!";
     util::string str2(chars);
     std::string str("Sun shine");
-    str2+=str;
+    //str2+=str;
     cout<< "str2.length "<< str2.length() << endl;
 }
