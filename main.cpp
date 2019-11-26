@@ -16,22 +16,59 @@ void TestNotEqualsOpetator();
 void TestIndexOperator();
 void TestSubstr();
 void TestLength();
+template <typename T>
+struct Node {
+    T val;
+    Node *next;
+    Node(){}
+    Node(const T& t) : val(t) {}
+};
+
+template <typename T>
+struct node_iter {
+    Node<T>* current;
+    node_iter(Node<T>* current): current(current) {}
+
+    const node_iter& operator++() { current = current->next; return *this; }
+    node_iter operator++(int) {
+        node_iter result = *this; ++(*this); return result;
+    }
+    T& operator*() { return current->val; }
+};
 int main()
 {  
     // Operators
-    TestOutStream();
-    TestEqualsOpetator();
-    TestAssignmentOpetator();
-    TestStrConcat();
-    TestStrAssignConcat();
-    TestNotEqualsOpetator();
-    TestIndexOperator();
+//    TestOutStream();
+//    TestEqualsOpetator();
+//    TestAssignmentOpetator();
+//    TestStrConcat();
+//    TestStrAssignConcat();
+//    TestNotEqualsOpetator();
+//    TestIndexOperator();
 
+    // We make an array of nodes, and link them together - no point in
+    // dynamic allocation for such a simple example.
+    Node<int> nodes[10];
+    for (int i = 0; i < 10; ++i) {
+         //std::cout << i <<std::endl;
+        nodes[i] = Node<int>(i+i+1);
+        nodes[i].next = (i == 9) ? 0: nodes + i + 1;
+    }
+
+    // we supply a pointer to the first element of the array
+    node_iter<int> test(nodes);
+
+    // and then iterate:
+    while (test.current) {
+       // std::cout << test.current<<std::endl;
+        std::cout << *test  << " " <<std::endl;
+        *test++;
+    }
     // Functions
-    TestClear();
-    TestC_str();
-    TestSubstr();
-    TestLength();
+//    TestClear();
+//    TestC_str();
+//    TestSubstr();
+//    TestLength();
     return 0;
 }
 using namespace std;
